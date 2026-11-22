@@ -75,9 +75,13 @@ class PanelHost:
     async def stop(self, _event) -> None:
         if self.server:
             self.server.close()
-            await self.server.wait_closed()
         if self.writer:
             self.writer.close()
+        if self.server:
+            try:
+                await asyncio.wait_for(self.server.wait_closed(), timeout=5)
+            except TimeoutError:
+                _LOGGER.warning("FT-TS600 listener did not close within 5 seconds")
 
     async def send(self, writer: asyncio.StreamWriter, data: bytes) -> None:
         writer.write(data)
