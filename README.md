@@ -9,10 +9,12 @@ Copy `custom_components/ft_ts600` into Home Assistant's `custom_components` dire
 ```yaml
 ft_ts600:
   listen_host: 192.168.1.10
-  listen_port: 41805
+  listen_port: 41794
   panel_host: 192.168.1.32
   ip_id: 5
 ```
+
+Use the standard port `41794` for permanent installations. The tested FT-TS600 retained the master's IP after reboot and reverted to `41794` from an alternate port. Free `41794` on HA if a legacy CIP bridge occupies it.
 
 Set the panel's master entry to the HA address and port with CIP ID `05`. Keep the original settings for rollback. The listener accepts the configured panel address and registration ID. Keep the unencrypted CIP listener on the control LAN.
 
