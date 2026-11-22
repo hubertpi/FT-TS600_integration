@@ -14,7 +14,7 @@ ft_ts600:
   ip_id: 5
 ```
 
-Use the standard port `41794` for permanent installations. The tested FT-TS600 retained the master's IP after reboot and reverted to `41794` from an alternate port. Free `41794` on HA if a legacy CIP bridge occupies it.
+Use the standard port `41794` for permanent installations. During startup the tested FT-TS600 initially reported `41794`, then restored its configured alternate port. The standard port avoids that ambiguity. Free `41794` on HA if a legacy CIP bridge occupies it.
 
 Set the panel's master entry to the HA address and port with CIP ID `05`. Keep the original settings for rollback. The listener accepts the configured panel address and registration ID. Keep the unencrypted CIP listener on the control LAN.
 
