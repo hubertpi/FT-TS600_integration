@@ -39,7 +39,7 @@ _BUTTONS = {
 CONFIG_SCHEMA = vol.Schema(
     {DOMAIN: vol.Schema({
         vol.Required("listen_host"): cv.string,
-        vol.Optional("listen_port", default=41805): cv.port,
+        vol.Optional("listen_port", default=41794): cv.port,
         vol.Required("panel_host"): cv.string,
         vol.Optional("ip_id", default=5): vol.All(vol.Coerce(int), vol.Range(min=1, max=254)),
     })},
@@ -113,7 +113,7 @@ class PanelHost:
             self.connected = True
             self.sessions += 1
             self.publish()
-            for join, value in self.feedback.items():
+            for join, value in tuple(self.feedback.items()):
                 await self.send(writer, digital_feedback(join, value))
             heartbeat = asyncio.create_task(self.heartbeat(writer))
             levels: dict[int, bool] = {}
@@ -125,7 +125,7 @@ class PanelHost:
                     self.heartbeats += 1
                     self.publish()
                 elif frame == UPDATE:
-                    for join, value in self.feedback.items():
+                    for join, value in tuple(self.feedback.items()):
                         await self.send(writer, digital_feedback(join, value))
                 else:
                     for join, pressed in digital_joins(frame):
